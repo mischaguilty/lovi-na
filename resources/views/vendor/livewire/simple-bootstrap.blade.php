@@ -9,7 +9,7 @@
                     </li>
                 @else
                     <li class="page-item">
-                        <button type="button" class="page-link" wire:click="previousPage('{{ $paginator->getPageName() }}')" wire:loading.attr="disabled" rel="prev">@lang('pagination.previous')</button>
+{{--                        <a href="{{ route(\Illuminate\Support\Facades\Route::currentRouteName(), ['page' => $paginator->getPageName()]) }}" type="button" class="page-link" wire:click="previousPage('{{ $paginator->getPageName() }}')" wire:loading.attr="disabled" rel="prev">@lang('pagination.previous')</a>--}}
                     </li>
                 @endif
 

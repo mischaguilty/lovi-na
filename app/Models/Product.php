@@ -2,25 +2,26 @@
 
 namespace App\Models;
 
+use Faker\Factory;
 use Faker\Generator;
-use Helldar\LaravelLangPublisher\Facades\Helpers\Locales;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
+use Str;
 
-class Company extends Model implements HasMedia
+class Product extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
     use HasTranslations;
 
     public $translatable = [
-        'name',
+        'name'
     ];
-
 
     protected $guarded = [];
 
@@ -28,14 +29,21 @@ class Company extends Model implements HasMedia
     {
         $table->id();
         $table->text('name');
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
+        $table->timestamps();
     }
 
     public function definition(Generator $faker)
     {
+        $job = Factory::create('ru_RU')->unique()->jobTitle();
+
+        $name = [
+            'ru' => $job,
+            'uk' => $job,
+            'en' => ucfirst(Str::slug($job)),
+        ];
+
         return [
-            'name' => array_combine(Locales::installed(), array_pad([], count(Locales::installed()), $faker->company())),
+            'name' => $name,
         ];
     }
 }
