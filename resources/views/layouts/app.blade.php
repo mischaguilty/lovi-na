@@ -22,6 +22,16 @@
 
             <div id="nav" class="collapse navbar-collapse">
                 <div class="navbar-nav ms-auto">
+                    @guest
+                        @livewire('menu')
+                        @else
+                        <div class="nav-item">
+                            <a class="nav-link" href="{{ route('products.index') }}">
+                                {{ __('Products') }}
+                            </a>
+                        </div>
+                    @endguest
+
                     {!! (new \App\Components\LanguageSwitcher)->render()!!}
                 @guest
                     @if(Route::has('login'))
