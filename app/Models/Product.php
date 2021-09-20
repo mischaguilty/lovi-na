@@ -53,7 +53,7 @@ class Product extends Model implements HasMedia, Importable
         ];
     }
 
-    public function getMenuableTypeAttribute()
+    public function getMenuableTypeAttribute(): string
     {
         return Product::class;
     }

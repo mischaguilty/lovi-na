@@ -5,6 +5,7 @@ namespace App\Actions\Products;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Lorisleiva\Actions\Concerns\AsAction;
+use function Livewire\str;
 
 class Import
 {
@@ -23,7 +24,9 @@ class Import
     public function handle()
     {
         return optional(File::get($this->path) ?? null, function (string $csv) {
-            return collect(explode(PHP_EOL, $csv))->map(function (string $line) {
+            return collect(explode(PHP_EOL, $csv))->filter(function (string $line) {
+                return !empty($line);
+            })->map(function (string $line) {
                 return collect(explode(',', $line))->filter(function ($item) {
                     return !empty($item);
                 })->toArray();
