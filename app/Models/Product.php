@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Importable;
 use App\Models\Traits\MenuableTrait as Menuable;
+use App\Models\Traits\SourceColumns;
 use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,12 +15,13 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
 use Str;
 
-class Product extends Model implements HasMedia
+class Product extends Model implements HasMedia, Importable
 {
     use HasFactory;
     use InteractsWithMedia;
     use HasTranslations;
     use Menuable;
+    use SourceColumns;
 
     public array $translatable = [
         'name'
@@ -53,6 +56,13 @@ class Product extends Model implements HasMedia
     public function getMenuableTypeAttribute()
     {
         return Product::class;
+    }
+
+    public function getImportablesAttribute(): array
+    {
+        return [
+            'name', 'code',
+        ];
     }
 
     public bool $withDropdown = true;
